@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title>Peta Penggunaan Lahan Kecamatan Perhentian Raja Kab. Kampar</title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="data/GunaLahan_1.js"></script>
+        <script src="data/RuasJalan_2.js"></script>
+        <script src="data/BatasDesa_3.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[0.26905787954090865,101.30095642357345],[0.3997203857100821,101.54501600780505]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_GoogleRoad_0');
+        map.getPane('pane_GoogleRoad_0').style.zIndex = 400;
+        var layer_GoogleRoad_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleRoad_0',
+            opacity: 1.0,
+            attribution: '<a href="https://www.google.at/permissions/geoguidelines/attr-guide.html">Map data ©2015 Google</a>',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 20
+        });
+        layer_GoogleRoad_0;
+        map.addLayer(layer_GoogleRoad_0);
+        function pop_GunaLahan_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">GUNA LAHAN</th>\
+                        <td>' + (feature.properties['REMARK'] !== null ? autolinker.link(feature.properties['REMARK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LUAS (HA)</th>\
+                        <td>' + (feature.properties['LUAS_HA'] !== null ? autolinker.link(feature.properties['LUAS_HA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_GunaLahan_1_0(feature) {
+            switch(String(feature.properties['REMARK'])) {
+                case 'Danau':
+                    return {
+                pane: 'pane_GunaLahan_1',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(75,112,236,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Empang':
+                    return {
+                pane: 'pane_GunaLahan_1',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(206,205,101,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Perkebunan':
+                    return {
+                pane: 'pane_GunaLahan_1',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(121,234,93,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Permukiman':
+                    return {
+                pane: 'pane_GunaLahan_1',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,247,1,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Sungai':
+                    return {
+                pane: 'pane_GunaLahan_1',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(98,220,194,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Tegalan/Ladang':
+                    return {
+                pane: 'pane_GunaLahan_1',
+                stroke: false, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(216,153,45,1.0)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_GunaLahan_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(107,160,229,0.0)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_GunaLahan_1');
+        map.getPane('pane_GunaLahan_1').style.zIndex = 401;
+        map.getPane('pane_GunaLahan_1').style['mix-blend-mode'] = 'normal';
+        var layer_GunaLahan_1 = new L.geoJson(json_GunaLahan_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_GunaLahan_1',
+            layerName: 'layer_GunaLahan_1',
+            pane: 'pane_GunaLahan_1',
+            onEachFeature: pop_GunaLahan_1,
+            style: style_GunaLahan_1_0,
+        });
+        bounds_group.addLayer(layer_GunaLahan_1);
+        map.addLayer(layer_GunaLahan_1);
+        function pop_RuasJalan_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['REMARK'] !== null ? autolinker.link(feature.properties['REMARK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_RuasJalan_2_0(feature) {
+            switch(String(feature.properties['REMARK'])) {
+                case 'Jalan Arteri':
+                    return {
+                pane: 'pane_RuasJalan_2',
+                opacity: 1,
+                color: 'rgba(219,30,42,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 3.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+                    break;
+                case 'Jalan Lain':
+                    return {
+                pane: 'pane_RuasJalan_2',
+                opacity: 1,
+                color: 'rgba(203,203,203,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+                    break;
+                case 'Jalan Lokal':
+                    return {
+                pane: 'pane_RuasJalan_2',
+                opacity: 1,
+                color: 'rgba(234,123,26,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 2.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_RuasJalan_2',
+                opacity: 1,
+                color: 'rgba(188,221,125,0.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_RuasJalan_2');
+        map.getPane('pane_RuasJalan_2').style.zIndex = 402;
+        map.getPane('pane_RuasJalan_2').style['mix-blend-mode'] = 'normal';
+        var layer_RuasJalan_2 = new L.geoJson(json_RuasJalan_2, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_RuasJalan_2',
+            layerName: 'layer_RuasJalan_2',
+            pane: 'pane_RuasJalan_2',
+            onEachFeature: pop_RuasJalan_2,
+            style: style_RuasJalan_2_0,
+        });
+        bounds_group.addLayer(layer_RuasJalan_2);
+        map.addLayer(layer_RuasJalan_2);
+        function pop_BatasDesa_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADM4_EN'] !== null ? autolinker.link(feature.properties['ADM4_EN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADM3_EN'] !== null ? autolinker.link(feature.properties['ADM3_EN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADM2_EN'] !== null ? autolinker.link(feature.properties['ADM2_EN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADM1_EN'] !== null ? autolinker.link(feature.properties['ADM1_EN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_BatasDesa_3_0() {
+            return {
+                pane: 'pane_BatasDesa_3',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '10,5,1,5,1,5',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(114,155,111,0.00784313725490196)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane_BatasDesa_3');
+        map.getPane('pane_BatasDesa_3').style.zIndex = 403;
+        map.getPane('pane_BatasDesa_3').style['mix-blend-mode'] = 'normal';
+        var layer_BatasDesa_3 = new L.geoJson(json_BatasDesa_3, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_BatasDesa_3',
+            layerName: 'layer_BatasDesa_3',
+            pane: 'pane_BatasDesa_3',
+            onEachFeature: pop_BatasDesa_3,
+            style: style_BatasDesa_3_0,
+        });
+        bounds_group.addLayer(layer_BatasDesa_3);
+        map.addLayer(layer_BatasDesa_3);
+            var title = new L.Control();
+            title.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'info');
+                this.update();
+                return this._div;
+            };
+            title.update = function () {
+                this._div.innerHTML = '<h2>Peta Penggunaan Lahan Kecamatan Perhentian Raja Kab. Kampar</h2>';
+            };
+            title.addTo(map);
+            var abstract = new L.Control({'position':'topright'});
+            abstract.onAdd = function (map) {
+                this._div = L.DomUtil.create('div',
+                'leaflet-control abstract');
+                this._div.id = 'abstract'
+
+                    abstract.show();
+                    return this._div;
+                };
+                abstract.show = function () {
+                    this._div.classList.remove("abstract");
+                    this._div.classList.add("abstractUncollapsed");
+                    this._div.innerHTML = 'Nama : Jefri Mukhlis<br />NPM : 183410601<br />Kelas : 4B';
+            };
+            abstract.addTo(map);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/BatasDesa_3.png" /> Batas Desa': layer_BatasDesa_3,'Ruas Jalan<br /><table><tr><td style="text-align: center;"><img src="legend/RuasJalan_2_JalanArteri0.png" /></td><td>Jalan Arteri</td></tr><tr><td style="text-align: center;"><img src="legend/RuasJalan_2_JalanLain1.png" /></td><td>Jalan Lain</td></tr><tr><td style="text-align: center;"><img src="legend/RuasJalan_2_JalanLokal2.png" /></td><td>Jalan Lokal</td></tr><tr><td style="text-align: center;"><img src="legend/RuasJalan_2_3.png" /></td><td></td></tr></table>': layer_RuasJalan_2,'Guna Lahan<br /><table><tr><td style="text-align: center;"><img src="legend/GunaLahan_1_Danau0.png" /></td><td>Danau</td></tr><tr><td style="text-align: center;"><img src="legend/GunaLahan_1_Empang1.png" /></td><td>Empang</td></tr><tr><td style="text-align: center;"><img src="legend/GunaLahan_1_Perkebunan2.png" /></td><td>Perkebunan</td></tr><tr><td style="text-align: center;"><img src="legend/GunaLahan_1_Permukiman3.png" /></td><td>Permukiman</td></tr><tr><td style="text-align: center;"><img src="legend/GunaLahan_1_Sungai4.png" /></td><td>Sungai</td></tr><tr><td style="text-align: center;"><img src="legend/GunaLahan_1_TegalanLadang5.png" /></td><td>Tegalan/Ladang</td></tr><tr><td style="text-align: center;"><img src="legend/GunaLahan_1_6.png" /></td><td></td></tr></table>': layer_GunaLahan_1,"Google Road": layer_GoogleRoad_0,}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_BatasDesa_3.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['ADM4_EN'] !== null?String('<div style="color: #000000; font-size: 10pt; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['ADM4_EN']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_BatasDesa_3'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        map.addControl(new L.Control.Search({
+            layer: layer_BatasDesa_3,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'ADM4_EN'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
+        resetLabels([layer_BatasDesa_3]);
+        map.on("zoomend", function(){
+            resetLabels([layer_BatasDesa_3]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_BatasDesa_3]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_BatasDesa_3]);
+        });
+        </script>
+    </body>
+</html>
